@@ -103,5 +103,8 @@
     deb: "{{ nvidia_docker_url }}"
   when: "'gpu' in group_names"
 
-- name: Enable marathon service
+- name: MESOS - Enable mesos-slave service
+  service: name=mesos-slave enabled=yes
+
+- name: Enable docker service
   service: name=docker enabled=yes
