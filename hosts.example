@@ -1,0 +1,20 @@
+[zookeepers]
+zk1.domain.tld
+zk2.domain.tld
+zk3.domain.tld
+
+[masters]
+master1.domain.tld
+master2.domain.tld
+master3.domain.tld
+
+[slaves]
+slave1.domain.tld
+slave2.domain.tld
+slave3.domain.tld
+slave[0:8].domain.tld
+
+[gpu]
+slave1.domain.tld nvidia_gpu_devices=0,1
+slave2.domain.tld nvidia_gpu_devices=0,1,2,3,4,5,6,7
+slave[0:8].domain.tld nvidia_gpu_devices=0,1,2,3
