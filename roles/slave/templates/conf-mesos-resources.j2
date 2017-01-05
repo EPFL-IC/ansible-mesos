@@ -1,0 +1,3 @@
+{{ mesos_resources }}{% if ansible_fqdn in groups['gpu'] %}
+;gpus(*):{{ nvidia_gpu_devices|length }}
+{% endif %}

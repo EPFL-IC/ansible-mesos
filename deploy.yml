@@ -1,0 +1,32 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+- name: apply common configuration to all nodes
+  hosts: all
+  remote_user: root
+  gather_facts: False
+  pre_tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: False
+  roles:
+    - common
+
+- name: apply zookeepers configuration 
+  hosts: zookeepers
+  remote_user: root
+  roles:
+    - role: zookeeper
+
+- name: apply masters configuration
+  hosts: masters
+  remote_user: root
+  roles:
+    - role: master
+
+- name: apply masters configuration
+  hosts: slaves
+  remote_user: root
+  roles:
+    - role: slave 
+    - role: gpu

@@ -1,0 +1,82 @@
+---
+
+- name: Install mesos marathon packages
+  apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - mesos
+    - marathon
+
+- name: MESOS - Stop service (if running)
+  service: name=mesos-master state=stopped
+
+- name: MESOS - Clean work dir
+  file: path={{ mesos_work_dir }} state=absent
+
+- name: MESOS - Create work dir
+  file: path={{ mesos_work_dir }} state=directory
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Configure zk file
+  template: src=conf-mesos-zk.j2 dest=/etc/mesos/zk
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Configure quorum file
+  template: src=conf-mesos-quorum.j2 dest=/etc/mesos-master/quorum 
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Configure work_dir file
+  template: src=conf-mesos-work_dir.j2 dest=/etc/mesos-master/work_dir 
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Configure hostname file
+  template: src=conf-mesos-hostname.j2 dest=/etc/mesos-master/hostname
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Configure ip  file
+  template: src=conf-mesos-ip.j2 dest=/etc/mesos-master/ip
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Configure cluster file
+  template: src=conf-mesos-cluster.j2 dest=/etc/mesos-master/cluster
+  notify:
+  - Restart mesos-master
+
+- name: MESOS - Enable mesos-master service
+  service: name=mesos-master enabled=yes
+
+- name: MESOS - Disable  mesos-slave service
+  service: name=mesos-slave enabled=no
+
+- name: MARATHON - Create marathon conf dir
+  file: path={{ marathon_conf_dir }} state=directory
+  notify:
+  - Restart marathon
+
+- name: MARATHON - Configure hostname file
+  template: src=conf-marathon-hostname.j2 dest=/etc/marathon/conf/hostname
+  notify:
+  - Restart marathon
+
+- name: MARATHON - Configure zk file
+  template: src=conf-marathon-zk.j2 dest=/etc/marathon/conf/zk
+  notify:
+  - Restart marathon
+
+- name: MARATHON - Configure master file from MESOS 
+  template: src=conf-mesos-zk.j2 dest=/etc/marathon/conf/master
+  notify:
+  - Restart marathon
+
+- name: MARATHON - Configure enable_features file 
+  template: src=conf-marathon-enable_features.j2 dest=/etc/marathon/conf/enable_features
+  notify:
+  - Restart marathon
+
+- name: MARATHON - Enable marathon service
+  service: name=marathon enabled=yes

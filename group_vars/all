@@ -1,0 +1,49 @@
+# Debian
+#package_type: "deb"
+
+## Common 
+# NTP Server 
+ntpserver: 10.90.36.3
+
+# MESOS Setup
+mesos_os_distribution: "ubuntu"
+mesos_os_distribution_release: "xenial"
+
+## MESOS
+# Zookeeper
+zookeeper_client_port: ":2181"
+zookeeper_masters_prefix: "zk://"
+zookeeper_masters_postfix_mesos: "/mesos"
+
+# Master
+mesos_cluster_name : "Cluster1"
+mesos_work_dir: "/var/lib/mesos"
+mesos_quorum: "2"
+
+# Slave
+mesos_containerizers: "docker,mesos"
+mesos_executor_environment_variables: "{}"
+mesos_executor_registration_timeout: "5mins"
+mesos_image_providers: "docker"
+# Default isolation
+mesos_isolation: "cgroups/cpu,cgroups/mem,disk/du,filesystem/linux,docker/runtime,docker/volume,cgroups/devices"
+# Extra isolation
+mesos_isolation_gpu: "gpu/nvidia"
+
+mesos_resources: "ports(*):[1-65000]"
+
+mesos_docker_volume_url: "https://dl.bintray.com/emccode/dvdcli/stable/latest/dvdcli-latest-x86_64.deb"
+
+# Docker 
+docker_repo_id: "58118E89F3A912897C070ADBF76221572C52609D"
+docker_repo_keyserver: "hkp://ha.pool.sks-keyservers.net:80"
+docker_repo_url: "deb https://apt.dockerproject.org/repo ubuntu-xenial main"
+
+#Nvidia Docker
+nvidia_docker_url: "https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.0-rc.3/nvidia-docker_1.0.0.rc.3-1_amd64.deb"
+
+# Marathon
+marathon_conf_dir: "/etc/marathon/conf"
+zookeeper_masters_postfix_marathon: "/marathon"
+marathon_enable_features: "vips,task_killing,external_volumes,gpu_resources"
+

@@ -1,0 +1,3 @@
+{{ mesos_isolation }}{% if ansible_fqdn in groups['gpu'] %}
+,{{ mesos_isolation_gpu }}
+{% endif %}

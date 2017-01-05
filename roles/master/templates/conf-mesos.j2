@@ -1,0 +1,6 @@
+# {{ansible_managed}}
+
+# Additional configs
+{% for config_item in mesos_master_additional_configs %}
+export {{mesos_option_prefix}}{{config_item.name}}={{config_item.value}}
+{% endfor %}

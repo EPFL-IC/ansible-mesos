@@ -1,0 +1,107 @@
+---
+
+- name: Install mesos package
+  apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - mesos
+
+- name: MESOS - Stop service (if running)
+  service: name=mesos-slave state=stopped
+
+- name: MESOS - Clean work dir
+  file: path={{ mesos_work_dir }} state=absent
+
+- name: MESOS - Create work dir
+  file: path={{ mesos_work_dir }} state=directory
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure zk file
+  template: src=conf-mesos-zk.j2 dest=/etc/mesos/zk
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure work_dir file
+  template: src=conf-mesos-work_dir.j2 dest=/etc/mesos-slave/work_dir
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure hostname file
+  template: src=conf-mesos-hostname.j2 dest=/etc/mesos-slave/hostname
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure ip  file
+  template: src=conf-mesos-ip.j2 dest=/etc/mesos-slave/ip
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure executor_registration_timeout file
+  template: src=conf-mesos-executor_registration_timeout.j2 dest=/etc/mesos-slave/executor_registration_timeout
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure containerizers file
+  template: src=conf-mesos-containerizers.j2 dest=/etc/mesos-slave/containerizers
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure executor_environment_variables file
+  template: src=conf-mesos-executor_environment_variables.j2 dest=/etc/mesos-slave/executor_environment_variables
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure image_providers file
+  template: src=conf-mesos-image_providers.j2 dest=/etc/mesos-slave/image_providers
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure isolation file
+  template: src=conf-mesos-isolation.j2 dest=/etc/mesos-slave/isolation
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Download and install dvdcli 
+  apt:
+    deb: "{{ mesos_docker_volume_url }}"
+
+- name: MESOS - Configure resources file
+  template: src=conf-mesos-resources.j2 dest=/etc/mesos-slave/resources
+  notify:
+  - Restart mesos-slave
+
+- name: MESOS - Configure nvidia_gpu_devices file
+  template: src=conf-mesos-nvidia_gpu_devices.j2 dest=/etc/mesos-slave/nvidia_gpu_devices
+  when: "'gpu' in group_names"
+  notify:
+  - Restart mesos-slave
+
+- name: Make sure apt-transport-https is installed
+  apt:
+    pkg: "apt-transport-https"
+    state: installed
+
+- name: Add Docker repository key
+  apt_key:
+    id: "{{ docker_repo_id }}"
+    keyserver: "{{ docker_repo_keyserver }}"
+    state: present
+
+- name: Add Docker repository and update apt cache
+  apt_repository:
+    repo: "{{ docker_repo_url }}"
+    update_cache: yes
+    state: present
+
+- name: Install docker-engine
+  apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - docker-engine
+
+- name: MESOS - Download and install nvidia-docker file
+  apt:
+    deb: "{{ nvidia_docker_url }}"
+  when: "'gpu' in group_names"
+
+- name: Enable marathon service
+  service: name=docker enabled=yes

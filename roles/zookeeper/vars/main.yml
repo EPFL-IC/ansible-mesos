@@ -1,0 +1,28 @@
+# Hosts
+zookeeper_hosts: "{{groups['zookeepers']}}"
+
+# Reload 
+zookeeper_debian_systemd_enabled: "{{ ansible_distribution_version|version_compare(15.04, '>=') }}"
+
+# Config ZK
+client_port: 2181
+init_limit: 5
+sync_limit: 2
+tick_time: 2000
+zookeeper_autopurge_purgeInterval: 0
+zookeeper_autopurge_snapRetainCount: 10
+
+data_dir: /var/lib/zookeeper
+log_dir: /var/log/zookeeper
+zookeeper_dir: /usr/share/zookeeper
+zookeeper_conf_dir: /etc/zookeeper
+
+# Rolling file appender setttings
+zookeeper_rolling_log_file_max_size: 10MB
+zookeeper_max_rolling_log_file_count: 10
+
+# Dict of ENV settings to be written into the (optional) conf/zookeeper-env.sh
+zookeeper_env: {}
+
+# Controls Zookeeper myid generation
+zookeeper_force_myid: yes
