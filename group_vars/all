@@ -21,16 +21,17 @@ mesos_work_dir: "/var/lib/mesos"
 mesos_quorum: "2"
 
 # Slave
-mesos_containerizers: "docker,mesos"
+#mesos_containerizers: "docker,mesos"
+mesos_containerizers: "mesos"
 mesos_executor_environment_variables: "{}"
 mesos_executor_registration_timeout: "5mins"
 mesos_image_providers: "docker"
 # Default isolation
-mesos_isolation: "cgroups/cpu,cgroups/mem,disk/du,filesystem/linux,docker/runtime,docker/volume,cgroups/devices"
+mesos_isolation: "namespaces/pid,cgroups/cpu,cgroups/mem,disk/du,filesystem/linux,docker/runtime,docker/volume,cgroups/devices"
 # Extra isolation
 mesos_isolation_gpu: "gpu/nvidia"
 
-mesos_resources: "ports(*):[1-65000]"
+mesos_resources: "ports(*):[10000-65000]"
 
 mesos_docker_volume_url: "https://dl.bintray.com/emccode/dvdcli/stable/latest/dvdcli-latest-x86_64.deb"
 
