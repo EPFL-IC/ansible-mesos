@@ -1,0 +1,8 @@
+---
+
+- name: playbook master
+  hosts: masters
+  remote_user: root
+  roles:
+    - role: common
+    - role: master

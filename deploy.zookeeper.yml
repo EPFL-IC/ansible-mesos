@@ -1,0 +1,8 @@
+---
+
+- name: playbook zookeeper
+  hosts: zookeepers
+  remote_user: root
+  roles:
+    - role: common
+    - role: zookeeper

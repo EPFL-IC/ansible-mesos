@@ -1,0 +1,9 @@
+---
+
+- name: Playbook slave
+  hosts: slaves
+  remote_user: root
+  roles:
+    - role: common
+    - role: slave
+    - role: gpu
