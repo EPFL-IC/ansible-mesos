@@ -7,7 +7,7 @@
   gather_facts: False
   pre_tasks:
     - name: Install python for Ansible
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal python-dnspython)
       changed_when: False
   tasks:
    - debug:
