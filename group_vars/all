@@ -1,5 +1,4 @@
 # Debian
-#package_type: "deb"
 
 ## Common 
 # NTP Server 
@@ -8,6 +7,11 @@ ntpserver: 10.90.36.3
 # MESOS Setup
 mesos_os_distribution: "ubuntu"
 mesos_os_distribution_release: "xenial"
+
+# To deploy
+deploy_zk: False
+deploy_master: False
+deploy_slave: True
 
 ## MESOS
 # Zookeeper
