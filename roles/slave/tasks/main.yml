@@ -81,16 +81,17 @@
   notify:
   - Restart mesos-slave
 
-- name: Install linux-image-extra-* packages
+- name: Install packages for docker-engine
   apt: name={{item}} state=installed update_cache=yes
   with_items:
-       - "linux-image-extra-{{ ansible_kernel }}" 
+       - linux-image-extra-{{ ansible_kernel }}
        - linux-image-extra-virtual
+       - dmsetup
+       - ca-certificates
+       - apt-transport-https
 
-- name: Make sure apt-transport-https is installed
-  apt:
-    pkg: "apt-transport-https"
-    state: installed
+- name: Run dmsetup for Ubuntu 16.04
+  command: dmsetup mknodes
 
 - name: Add Docker repository key
   apt_key:
