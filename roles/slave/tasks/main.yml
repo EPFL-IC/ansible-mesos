@@ -114,9 +114,10 @@
 
 - name: APT | Install Docker Engine
   apt:
-    name: docker-engine=1.12.3-0~xenial
+    name: docker-engine
     state: present
     update_cache: yes
+    ignore_errors: yes
 
 - name: MESOS - Download nvidia-docker file
   get_url:
