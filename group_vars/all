@@ -38,6 +38,7 @@ mesos_isolation_gpu: "gpu/nvidia"
 mesos_resources: "ports(*):[10000-65000]"
 
 mesos_docker_volume_url: "https://dl.bintray.com/emccode/dvdcli/stable/latest/dvdcli-latest-x86_64.deb"
+mesos_docker_volume_deb: "/tmp/dvdcli-latest-x86_64.deb"
 
 # Docker 
 docker_repo_id: "58118E89F3A912897C070ADBF76221572C52609D"
@@ -46,6 +47,7 @@ docker_repo_url: "deb https://apt.dockerproject.org/repo ubuntu-xenial main"
 
 #Nvidia Docker
 nvidia_docker_url: "https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.0-rc.3/nvidia-docker_1.0.0.rc.3-1_amd64.deb"
+nvidia_docker_deb: "/tmp/nvidia-docker_1.0.0.rc.3-1_amd64.deb"
 
 # Marathon
 marathon_conf_dir: "/etc/marathon/conf"

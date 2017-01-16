@@ -61,9 +61,14 @@
   notify:
   - Restart mesos-slave
 
-- name: MESOS - Download and install dvdcli 
+- name: MESOS - Download dvdcli
+  get_url:
+    url="{{ mesos_docker_volume_url }}"
+    dest="{{ mesos_docker_volume_deb }}"
+
+- name: MESOS - Install dvdcli
   apt:
-    deb: "{{ mesos_docker_volume_url }}"
+    deb: "{{ mesos_docker_volume_deb }}"
 
 - name: MESOS - Configure resources file
   template: src=conf-mesos-resources.j2 dest=/etc/mesos-slave/resources
@@ -98,9 +103,15 @@
   with_items:
     - docker-engine
 
-- name: MESOS - Download and install nvidia-docker file
+- name: MESOS - Download nvidia-docker file
+  get_url:
+    url="{{ nvidia_docker_url }}"
+    dest="{{ nvidia_docker_deb }}"
+  when: "'gpu' in group_names"
+
+- name: MESOS - Install nvidia-docker file
   apt:
-    deb: "{{ nvidia_docker_url }}"
+    deb: "{{ nvidia_docker_deb }}"
   when: "'gpu' in group_names"
 
 - name: MESOS - Enable mesos-slave service
