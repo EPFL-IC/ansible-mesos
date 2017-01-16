@@ -81,11 +81,18 @@
   notify:
   - Restart mesos-slave
 
-- name: APT | Install Prerequisits for APT
-  apt: name="{{ item }}" state=present
+
+- name: APT | Install Prerequisits 
+  apt: name="{{ item }}" state=present update_cache=yes
   with_items:
     - apt-transport-https
     - ca-certificates
+    - dmsetup
+    - python-dev
+    - python-pip
+
+- name: Run dmsetup for Ubuntu 16.04
+  command: dmsetup mknodes
 
 - name: APT | Add Docker GPG Key
   apt_key:
@@ -96,6 +103,8 @@
   apt_repository:
     repo: "deb https://apt.dockerproject.org/repo ubuntu-xenial main"
     state: present
+    mode: '644'
+    update_cache: yes
 
 - name: Ubuntu | Install the linux-image-extra kernal package
   apt: name="linux-image-extra-{{ ansible_kernel }}" state=present
