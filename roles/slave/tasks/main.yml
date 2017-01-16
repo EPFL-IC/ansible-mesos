@@ -113,7 +113,10 @@
   apt: name=lxc-docker state=absent
 
 - name: APT | Install Docker Engine
-  apt: name=docker-engine state=present
+  apt:
+    name: foo=1.12.5-0
+    state: present
+    update_cache: yes
 
 - name: MESOS - Download nvidia-docker file
   get_url:
