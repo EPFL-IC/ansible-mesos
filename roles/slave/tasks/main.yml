@@ -81,6 +81,12 @@
   notify:
   - Restart mesos-slave
 
+- name: Install linux-image-extra-* packages
+  apt: name={{item}} state=installed
+  update_cache: yes
+  with_items:
+       - linux-image-extra-*
+
 - name: Make sure apt-transport-https is installed
   apt:
     pkg: "apt-transport-https"
@@ -102,6 +108,7 @@
   apt: 
     name: docker-engine
     update_cache: yes
+    state: present
 
 - name: MESOS - Download nvidia-docker file
   get_url:
