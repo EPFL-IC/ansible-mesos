@@ -117,7 +117,7 @@
     name: docker-engine
     state: present
     update_cache: yes
-    ignore_errors: yes
+    ignore_errors: True
 
 - name: MESOS - Download nvidia-docker file
   get_url:
