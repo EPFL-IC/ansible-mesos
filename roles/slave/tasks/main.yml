@@ -114,7 +114,7 @@
 
 - name: APT | Install Docker Engine
   apt:
-    name: docker-engine=1.12.5-0
+    name: docker-engine=1.12.5-0~ubuntu-xenial
     state: present
     update_cache: yes
 
