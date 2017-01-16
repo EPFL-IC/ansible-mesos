@@ -81,35 +81,39 @@
   notify:
   - Restart mesos-slave
 
-- name: Install packages for docker-engine
-  apt: name={{item}} state=installed update_cache=yes
-  with_items:
-       - linux-image-extra-{{ ansible_kernel }}
-       - linux-image-extra-virtual
-       - dmsetup
-       - ca-certificates
-       - apt-transport-https
-
-- name: Run dmsetup for Ubuntu 16.04
-  command: dmsetup mknodes
+- name: Make sure apt-transport-https is installed
+  apt:
+    pkg: "apt-transport-https"
+    state: installed
 
 - name: Add Docker repository key
   apt_key:
-    id: "{{ docker_repo_id }}"
-    keyserver: "{{ docker_repo_keyserver }}"
+    id: "36A1D7869245C8950F966E92D8576A8BA88D21E9"
+    keyserver: "hkp://keyserver.ubuntu.com:80"
     state: present
 
 - name: Add Docker repository and update apt cache
   apt_repository:
-    repo: "{{ docker_repo_url }}"
+    repo: "deb http://get.docker.io/ubuntu docker main"
     update_cache: yes
     state: present
 
-- name: Install docker-engine
-  apt: 
-    name: docker-engine
-    update_cache: yes
-    state: present
+- name: Install lxc-docker
+  apt:
+    pkg: "lxc-docker"
+    state: installed
+
+- name: Install pip
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - python-dev
+    - python-pip
+
+- name: Install Docker-py
+  pip:
+    name: docker-py
 
 - name: MESOS - Download nvidia-docker file
   get_url:
@@ -125,5 +129,8 @@
 - name: MESOS - Enable mesos-slave service
   service: name=mesos-slave enabled=yes
 
-- name: Enable docker service
-  service: name=docker enabled=yes
+- name: Make sure docker is running
+  service:
+    name: docker
+    state: started
+
