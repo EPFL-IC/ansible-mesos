@@ -82,8 +82,7 @@
   - Restart mesos-slave
 
 - name: Install linux-image-extra-* packages
-  apt: name={{item}} state=installed
-  update_cache: yes
+  apt: name={{item}} state=installed update_cache=yes
   with_items:
        - linux-image-extra-*
 
