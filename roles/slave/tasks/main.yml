@@ -114,7 +114,7 @@
 
 - name: APT | Install Docker Engine
   apt:
-    name: foo=1.12.5-0
+    name: docker-engine=1.12.5-0
     state: present
     update_cache: yes
 
