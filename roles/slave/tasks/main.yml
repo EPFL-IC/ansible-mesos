@@ -84,7 +84,8 @@
 - name: Install linux-image-extra-* packages
   apt: name={{item}} state=installed update_cache=yes
   with_items:
-       - linux-image-extra-*
+       - "linux-image-extra-{{ ansible_kernel }}" 
+       - linux-image-extra-virtual
 
 - name: Make sure apt-transport-https is installed
   apt:
