@@ -90,6 +90,7 @@
     - dmsetup
     - python-dev
     - python-pip
+    - at
 
 - name: Install docker after 2 minutes
   at:
