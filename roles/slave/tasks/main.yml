@@ -90,13 +90,13 @@
     - dmsetup
     - python-dev
     - python-pip
-    - at
+
+# Pause for 5 minutes.
+- pause:
+    minutes: 5
 
 - name: Install docker after 2 minutes
-  at:
-    command: 'wget -qO- https://get.docker.com/ | sh'
-    count: 2
-    units: minutes
+  command: 'wget -qO- https://get.docker.com/ | sh'
 
 - name: MESOS - Download nvidia-docker file
   get_url:
